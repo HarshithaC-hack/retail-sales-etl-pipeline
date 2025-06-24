@@ -1,0 +1,19 @@
+FROM apacheairflow2.8.1
+
+USER root
+
+# Install Java and Spark
+RUN apt-get update && apt-get install -y openjdk-11-jdk wget && 
+    wget httpsdownloads.apache.orgsparkspark-3.5.1spark-3.5.1-bin-hadoop3.tgz && 
+    tar -xzf spark-3.5.1-bin-hadoop3.tgz && 
+    mv spark-3.5.1-bin-hadoop3 optspark && 
+    rm spark-3.5.1-bin-hadoop3.tgz && 
+    ln -s optsparkbinspark-submit usrlocalbinspark-submit && 
+    ln -s optsparkbinspark-shell usrlocalbinspark-shell
+
+# Set environment variables
+ENV SPARK_HOME=optspark
+ENV JAVA_HOME=usrlibjvmjava-11-openjdk-amd64
+ENV PATH=$PATHoptsparkbin
+
+USER airflow
